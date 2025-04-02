@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Jua&family=Poor+Story&display=swap');
+
+:root {
+  --font-gaegu: 'Gaegu', cursive;
+  --font-jua: 'Jua', sans-serif;
+  --font-poorstory: 'Poor Story', cursive;
+}
+
+body {
+  font-family: var(--font-jua);
+}
+
+.font-gaegu {
+  font-family: var(--font-gaegu);
+}
+
+.font-jua {
+  font-family: var(--font-jua);
+}
+
+.font-poorstory {
+  font-family: var(--font-poorstory);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-jua);
+}
+
+p, span, a {
+  font-family: var(--font-poorstory);
+} 
