@@ -1,9 +1,22 @@
-@import "./styles/fonts.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* 폰트 정의를 직접 삽입 */
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Jua&family=Poor+Story&display=swap');
+
+:root {
+  --font-gaegu: 'Gaegu', cursive;
+  --font-jua: 'Jua', sans-serif;
+  --font-poorstory: 'Poor Story', cursive;
+}
+
+/* 폰트 클래스 정의 */
+.font-gaegu { font-family: var(--font-gaegu); }
+.font-jua { font-family: var(--font-jua); }
+.font-poorstory { font-family: var(--font-poorstory); }
+
+/* 기타 스타일 */
 html,
 body {
   @apply bg-white dark:bg-gray-950;
@@ -12,8 +25,6 @@ body {
     color-scheme: dark;
   }
 }
-
-
 
 @layer base {
   :root {
@@ -70,8 +81,6 @@ body {
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
