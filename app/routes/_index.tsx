@@ -34,7 +34,7 @@ export default function Index() {
         </header>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          <Link to="/admin" className="block transform hover:scale-105 transition-all duration-300">
+          <Link to="/admin/login" className="block transform hover:scale-105 transition-all duration-300">
             <Card className="h-full rounded-2xl shadow-lg border-2 border-blue-300 overflow-hidden">
               <div className="h-2 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
               <CardHeader>
@@ -73,7 +73,7 @@ export default function Index() {
               </CardContent>
               <CardFooter className="pt-0">
                 <Button className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl shadow hover:shadow-md font-jua flex items-center justify-center gap-2">
-                  교사 로그인
+                  담임교사 로그인
                   <ArrowRight size={16} />
                 </Button>
               </CardFooter>
