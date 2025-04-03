@@ -1,6 +1,5 @@
 [build]
   command = "remix build"
-  functions = "netlify/functions"
   publish = "public"
 
 [dev]
@@ -9,7 +8,7 @@
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/server"
+  to = "/index.html"
   status = 200
 
 [[headers]]

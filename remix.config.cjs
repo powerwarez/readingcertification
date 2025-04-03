@@ -1,9 +1,6 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverBuildTarget: "netlify",
-  server: "./netlify/functions/server.js",
   ignoredRouteFiles: ["**/.*"],
-  publicPath: "/build/",
-  serverBuildPath: "netlify/functions/server.js",
-  assetsBuildDirectory: "public/build",
+  // 기존 Netlify 관련 설정 제거
+  // serverBuildTarget: "netlify"와 관련 설정 제거
 };
