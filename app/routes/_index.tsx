@@ -57,7 +57,7 @@ export default function Index() {
             </Card>
           </Link>
           
-          <Link to="/teacher" className="block transform hover:scale-105 transition-all duration-300">
+          <Link to="/teacher/login" className="block transform hover:scale-105 transition-all duration-300">
             <Card className="h-full rounded-2xl shadow-lg border-2 border-purple-300 overflow-hidden">
               <div className="h-2 bg-gradient-to-r from-pink-400 to-purple-500"></div>
               <CardHeader>
