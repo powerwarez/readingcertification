@@ -26,5 +26,6 @@
 [[plugins]]
   package = "netlify-plugin-cypress"
   [plugins.inputs]
-    record = true
+    enable = false
+    record = false
     group = "Testing Built Site"
