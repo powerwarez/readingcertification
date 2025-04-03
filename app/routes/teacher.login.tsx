@@ -1,10 +1,11 @@
-import { Form } from "@remix-run/react";
-import type { MetaFunction } from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
+import type { MetaFunction, ActionFunctionArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { HelpCircle, ArrowLeft, LogIn, User } from "lucide-react";
+import { HelpCircle, ArrowLeft, LogIn, User, AlertCircle } from "lucide-react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -13,7 +14,27 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const teacherId = formData.get("teacherId");
+  const password = formData.get("password");
+
+  // 임시 로그인 처리 - 아이디와 비밀번호가 모두 'test'인 경우에만 로그인 성공
+  if (teacherId === "test" && password === "test") {
+    // 실제 환경에서는 세션 설정 등의 추가 작업 필요
+    return redirect("/teacher");
+  }
+
+  // 로그인 실패
+  return json(
+    { error: "아이디 또는 비밀번호가 올바르지 않습니다." },
+    { status: 400 }
+  );
+}
+
 export default function TeacherLogin() {
+  const actionData = useActionData<typeof action>();
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
@@ -43,7 +64,13 @@ export default function TeacherLogin() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Form className="space-y-4" action="/teacher" id="teacherLoginForm">
+              {actionData?.error && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2">
+                  <AlertCircle size={18} className="text-red-500" />
+                  <p className="text-sm text-red-600 font-poorstory">{actionData.error}</p>
+                </div>
+              )}
+              <Form className="space-y-4" method="post" id="teacherLoginForm">
                 <div className="space-y-2">
                   <Label htmlFor="teacherId" className="text-sm font-jua text-indigo-700">교사 아이디</Label>
                   <Input 
@@ -75,6 +102,7 @@ export default function TeacherLogin() {
                     <input
                       type="checkbox"
                       id="remember"
+                      name="remember"
                       className="h-4 w-4 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500"
                     />
                     <Label htmlFor="remember" className="text-sm font-poorstory text-indigo-700">로그인 상태 유지</Label>
@@ -87,7 +115,6 @@ export default function TeacherLogin() {
                 type="submit" 
                 form="teacherLoginForm"
                 className="w-full h-12 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:shadow-md transition-all font-jua flex items-center justify-center gap-2"
-                onClick={() => window.location.href = "/teacher"}
               >
                 <LogIn size={18} />
                 <span>로그인</span>
