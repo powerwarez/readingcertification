@@ -28,13 +28,13 @@ export default function Index() {
           <Link to="/admin" className="w-full transform hover:scale-105 transition-transform duration-300">
             <Button className="w-full h-20 text-xl font-jua rounded-2xl bg-gradient-to-r from-indigo-500 to-blue-500 shadow-lg border-4 border-white">
               <School size={24} className="mr-2" />
-              선생님 입장하기
+              학교 관리자 페이지
             </Button>
           </Link>
-          <Link to="/student" className="w-full transform hover:scale-105 transition-transform duration-300">
+          <Link to="/teacher" className="w-full transform hover:scale-105 transition-transform duration-300">
             <Button variant="outline" className="w-full h-20 text-xl font-jua rounded-2xl bg-gradient-to-r from-pink-400 to-orange-400 text-white shadow-lg border-4 border-white">
               <User size={24} className="mr-2" />
-              학생 입장하기
+              담임교사 로그인
             </Button>
           </Link>
         </div>

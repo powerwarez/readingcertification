@@ -18,14 +18,14 @@ import {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "책잇수다 - 선생님 관리 페이지" },
-    { name: "description", content: "책잇수다 교사용 관리 페이지입니다." },
+    { title: "책잇수다 - 학교 관리자 페이지" },
+    { name: "description", content: "책잇수다 학교 관리자용 관리 페이지입니다." },
   ];
 };
 
 export function loader() {
   return json({
-    title: "책잇수다 선생님 페이지",
+    title: "책잇수다 학교 관리자 페이지",
     welcomeMessage: "반갑습니다! 학생들의 독서 여정을 함께 만들어보세요.",
     cards: [
       {
