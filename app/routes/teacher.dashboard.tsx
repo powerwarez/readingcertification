@@ -36,14 +36,6 @@ export function loader() {
         borderColor: "border-blue-300"
       },
       {
-        title: "도전과제 관리",
-        description: "학급에 맞는 독서 도전과제와 뱃지를 설정해보세요.",
-        link: "/teacher/challenges",
-        iconName: "Trophy",
-        color: "bg-gradient-to-r from-amber-400 to-yellow-300",
-        borderColor: "border-amber-300"
-      },
-      {
         title: "리더보드",
         description: "학급 내 학생들의 독서 활동 순위와 통계를 확인하세요.",
         link: "/teacher/leaderboard",
