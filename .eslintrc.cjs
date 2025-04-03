@@ -18,6 +18,7 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
+    node: true,
   },
   ignorePatterns: ["!**/.server", "!**/.client"],
 
@@ -75,7 +76,7 @@ module.exports = {
 
     // Node
     {
-      files: [".eslintrc.cjs"],
+      files: [".eslintrc.cjs", "remix.config.js", "server.ts"],
       env: {
         node: true,
       },
