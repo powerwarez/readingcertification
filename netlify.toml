@@ -1,8 +1,15 @@
 [build]
-  command = "npm install && remix build"
+  command = "npm run build"
   publish = "public"
-  functions = ".netlify/functions-internal"
+  functions = "netlify/functions"
 
+[dev]
+  command = "remix dev"
+  port = 3000
+  
+[functions]
+  node_bundler = "esbuild"
+  
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
