@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent } from "~/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { Button } from "~/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "~/components/ui/dialog";
@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~
 import { Input } from "~/components/ui/input";
 import { Badge } from "~/components/ui/badge";
 import { 
-  UserCog, 
   Search,
   Edit,
   CheckCircle,
@@ -87,7 +86,8 @@ export function loader() {
 export default function TeachersIndex() {
   const data = useLoaderData<typeof loader>();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTeacher, setSelectedTeacher] = useState<typeof data.teachers[0] | null>(null);
+  // 선택된 교사 상태 - 다이얼로그를 위해 필요함
+  const [, setSelectedTeacher] = useState<typeof data.teachers[0] | null>(null);
   
   // 검색 기능
   const filteredTeachers = data.teachers.filter(teacher => 
@@ -101,20 +101,20 @@ export default function TeachersIndex() {
   };
 
   return (
-    <div>
-      <header className="mb-8">
-        <h1 className="text-3xl font-jua text-indigo-800 mb-2">{data.schoolName} 교사 관리</h1>
-        <p className="text-gray-600 font-poorstory">우리 학교 소속 선생님들의 정보를 관리할 수 있습니다.</p>
+    <div className="container mx-auto px-4 py-6">
+      <header className="mb-10">
+        <h1 className="text-3xl font-jua text-indigo-800 mb-3">{data.schoolName} 교사 관리</h1>
+        <p className="text-gray-600 font-poorstory text-lg mb-6">우리 학교 소속 선생님들의 정보를 관리할 수 있습니다.</p>
         
-        <div className="mt-4 flex items-center gap-4">
+        <div className="flex items-center gap-4">
           <div className="relative flex-grow max-w-md">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
               <Search className="w-5 h-5 text-gray-400" />
             </div>
             <Input
               type="search"
               placeholder="이름 또는 이메일로 검색"
-              className="pl-10 border-2 border-indigo-100 focus:border-indigo-300 rounded-xl font-poorstory"
+              className="pl-12 py-6 border-2 border-indigo-100 focus:border-indigo-300 rounded-xl font-poorstory"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -122,40 +122,40 @@ export default function TeachersIndex() {
         </div>
       </header>
 
-      <Card className="border-2 border-indigo-100 rounded-2xl overflow-hidden">
-        <div className="h-2 bg-gradient-to-r from-indigo-400 to-purple-400"></div>
+      <Card className="border-2 border-indigo-100 rounded-2xl overflow-hidden shadow-md bg-white bg-opacity-90">
+        <div className="h-3 bg-gradient-to-r from-indigo-400 to-purple-400"></div>
         <CardContent className="p-6">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-jua">이름</TableHead>
-                <TableHead className="font-jua">이메일</TableHead>
-                <TableHead className="font-jua">권한</TableHead>
-                <TableHead className="font-jua">담당 학급</TableHead>
-                <TableHead className="font-jua">가입일</TableHead>
-                <TableHead className="font-jua text-right">관리</TableHead>
+                <TableHead className="font-jua text-base">이름</TableHead>
+                <TableHead className="font-jua text-base">이메일</TableHead>
+                <TableHead className="font-jua text-base">권한</TableHead>
+                <TableHead className="font-jua text-base">담당 학급</TableHead>
+                <TableHead className="font-jua text-base">가입일</TableHead>
+                <TableHead className="font-jua text-base text-right">관리</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTeachers.map((teacher) => (
                 <TableRow key={teacher.id}>
-                  <TableCell className="font-poorstory">{teacher.name}</TableCell>
-                  <TableCell className="font-poorstory">{teacher.email}</TableCell>
+                  <TableCell className="font-poorstory text-base py-4">{teacher.name}</TableCell>
+                  <TableCell className="font-poorstory text-base">{teacher.email}</TableCell>
                   <TableCell>
                     {teacher.isAdmin ? (
-                      <Badge className="bg-blue-500 font-poorstory">학교관리자</Badge>
+                      <Badge className="bg-blue-500 font-poorstory text-sm px-3 py-1">학교관리자</Badge>
                     ) : (
-                      <Badge variant="outline" className="text-gray-500 border-gray-300 font-poorstory">일반교사</Badge>
+                      <Badge variant="outline" className="text-gray-500 border-gray-300 font-poorstory text-sm px-3 py-1">일반교사</Badge>
                     )}
                   </TableCell>
-                  <TableCell className="font-poorstory">
+                  <TableCell className="font-poorstory text-base">
                     {teacher.isHomeroom && teacher.grade && teacher.class ? (
                       `${teacher.grade}학년 ${teacher.class}반`
                     ) : (
                       <span className="text-gray-400">담임 아님</span>
                     )}
                   </TableCell>
-                  <TableCell className="font-poorstory">{teacher.joinDate}</TableCell>
+                  <TableCell className="font-poorstory text-base">{teacher.joinDate}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Dialog>
@@ -163,20 +163,21 @@ export default function TeachersIndex() {
                           <Button 
                             variant="ghost" 
                             size="icon"
+                            className="hover:bg-indigo-50"
                             onClick={() => handleTeacherEdit(teacher)}
                           >
-                            <Edit className="h-4 w-4" />
+                            <Edit className="h-5 w-5 text-indigo-600" />
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
+                        <DialogContent className="sm:max-w-[425px] rounded-xl">
                           <DialogHeader>
-                            <DialogTitle className="font-jua text-indigo-800">{teacher.name} 선생님 정보 수정</DialogTitle>
+                            <DialogTitle className="font-jua text-indigo-800 text-xl">{teacher.name} 선생님 정보 수정</DialogTitle>
                             <DialogDescription className="font-poorstory">
                               담임 정보와 권한을 수정할 수 있습니다. 변경 사항은 즉시 반영됩니다.
                             </DialogDescription>
                           </DialogHeader>
                           
-                          <div className="grid gap-4 py-4">
+                          <div className="grid gap-5 py-4">
                             <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="isHomeroom" className="text-right font-poorstory">
                                 담임 여부
@@ -185,10 +186,10 @@ export default function TeachersIndex() {
                                 <input 
                                   type="checkbox" 
                                   id="isHomeroom" 
-                                  className="h-4 w-4 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500"
+                                  className="h-5 w-5 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500"
                                   defaultChecked={teacher.isHomeroom} 
                                 />
-                                <Label htmlFor="isHomeroom" className="font-poorstory">담임교사</Label>
+                                <Label htmlFor="isHomeroom" className="font-poorstory text-base">담임교사</Label>
                               </div>
                             </div>
                             
@@ -243,10 +244,10 @@ export default function TeachersIndex() {
                                   <input 
                                     type="checkbox" 
                                     id="isAdmin" 
-                                    className="h-4 w-4 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500"
+                                    className="h-5 w-5 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500"
                                     defaultChecked={teacher.isAdmin} 
                                   />
-                                  <Label htmlFor="isAdmin" className="font-poorstory">학교 관리자 권한 부여</Label>
+                                  <Label htmlFor="isAdmin" className="font-poorstory text-base">학교 관리자 권한 부여</Label>
                                 </div>
                                 {!teacher.isAdmin && (
                                   <p className="text-xs text-amber-600 font-poorstory">
@@ -263,10 +264,12 @@ export default function TeachersIndex() {
                               </div>
                             </div>
                           </div>
-                          
+
                           <DialogFooter>
-                            <Button type="submit" className="bg-indigo-500 hover:bg-indigo-600 font-poorstory">
-                              <UserCog className="mr-2 h-4 w-4" />
+                            <Button 
+                              type="submit" 
+                              className="bg-indigo-600 hover:bg-indigo-700 font-jua"
+                            >
                               변경사항 저장
                             </Button>
                           </DialogFooter>

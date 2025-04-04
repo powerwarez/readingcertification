@@ -42,35 +42,35 @@ export default function StudentsIndex() {
   }, {} as Record<number, typeof data.classes>);
 
   return (
-    <div>
-      <header className="mb-8">
-        <h1 className="text-3xl font-jua text-indigo-800 mb-2">학년/반 관리</h1>
-        <p className="text-gray-600 font-poorstory">각 반을 클릭하여 학생 목록을 확인하세요.</p>
+    <div className="container mx-auto px-4 py-6">
+      <header className="mb-10">
+        <h1 className="text-3xl font-jua text-indigo-800 mb-3">학년/반 관리</h1>
+        <p className="text-gray-600 font-poorstory text-lg">각 반을 클릭하여 학생 목록을 확인하세요.</p>
       </header>
 
-      <div className="space-y-8">
+      <div className="space-y-12">
         {Object.entries(groupedByGrade).map(([grade, classes]) => (
-          <div key={grade}>
-            <h2 className="text-2xl font-jua text-indigo-700 mb-4">{grade}학년</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div key={grade} className="bg-white bg-opacity-60 rounded-2xl p-6 shadow-sm">
+            <h2 className="text-2xl font-jua text-indigo-700 mb-6">{grade}학년</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {classes.map((classInfo) => (
                 <Link 
                   key={`${classInfo.grade}-${classInfo.class}`}
                   to={`/admin/students/${classInfo.grade}/${classInfo.class}`}
                   className="block transform hover:scale-105 transition-all duration-300"
                 >
-                  <Card className="border-2 border-indigo-100 hover:border-indigo-300 rounded-2xl overflow-hidden">
-                    <div className="h-2 bg-gradient-to-r from-indigo-400 to-purple-400"></div>
-                    <CardHeader className="pb-2">
+                  <Card className="border-2 border-indigo-100 hover:border-indigo-300 rounded-2xl overflow-hidden shadow-md">
+                    <div className="h-3 bg-gradient-to-r from-indigo-400 to-purple-400"></div>
+                    <CardHeader className="pb-2 pt-4">
                       <CardTitle className="text-xl font-jua text-indigo-700">
                         {classInfo.grade}학년 {classInfo.class}반
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Users size={20} />
-                          <span className="font-poorstory">전체 학생</span>
+                        <div className="flex items-center gap-3 text-gray-600">
+                          <Users size={22} />
+                          <span className="font-poorstory text-base">전체 학생</span>
                         </div>
                         <span className="text-2xl font-bold text-indigo-600 font-poorstory">
                           {classInfo.studentCount}명
