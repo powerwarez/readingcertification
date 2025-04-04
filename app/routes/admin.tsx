@@ -1,6 +1,6 @@
-import { Outlet, Link, useLoaderData } from "@remix-run/react";
-import type { MetaFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { Outlet, Link, useLoaderData, useLocation } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Button } from "~/components/ui/button";
 import { 
   LogOut, 
@@ -22,13 +22,7 @@ export const meta: MetaFunction = () => {
 
 // 임시로 로그인 상태를 확인하는 로더 함수
 // 추후 실제 인증 로직으로 대체 필요
-export async function loader({ request }: LoaderFunctionArgs) {
-  // 세션에서 로그인 상태 확인 (예시)
-  // const session = await getSession(request.headers.get("Cookie"));
-  // if (!session.has("userId")) {
-  //   return redirect("/admin/login");
-  // }
-  
+export async function loader() {
   // 임시적으로 로그인 상태를 true로 가정
   const isLoggedIn = true;
   
@@ -37,12 +31,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function AdminLayout() {
   const { isLoggedIn } = useLoaderData<typeof loader>();
+  const location = useLocation();
+  
+  // 관리자 홈 또는 로그인 페이지인지 확인
+  const isHomePage = location.pathname === "/admin" || location.pathname === "/admin/login";
+  
+  // 로그인 상태이고 관리자 홈페이지가 아닌 경우에만 사이드바 표시
+  const showSidebar = isLoggedIn && !isHomePage;
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-purple-50">
       <div className="flex">
-        {/* 사이드바 - 로그인 된 경우에만 표시 */}
-        {isLoggedIn && (
+        {/* 사이드바 - 로그인 상태이고 관리자 홈이 아닌 경우에만 표시 */}
+        {showSidebar && (
           <div className="w-72 bg-white bg-opacity-70 backdrop-blur-lg min-h-screen border-r border-indigo-100 p-6 flex flex-col shadow-sm">
             <div className="mb-10">
               <Link to="/admin">
@@ -103,7 +104,7 @@ export default function AdminLayout() {
         )}
 
         {/* 메인 콘텐츠 */}
-        <div className={`flex-1 overflow-auto ${isLoggedIn ? 'pl-4' : ''}`}>
+        <div className={`flex-1 overflow-auto ${showSidebar ? 'pl-4' : ''}`}>
           <Outlet />
         </div>
       </div>
