@@ -4,13 +4,11 @@ import type { MetaFunction } from "@remix-run/node";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "~/components/ui/card";
 import { 
-  LogOut, 
   GraduationCap, 
   Trophy, 
   BarChart3, 
   Users, 
-  ArrowRight, 
-  ArrowLeft,
+  ArrowRight,
   BookOpen,
   UserRound,
   CheckCircle
@@ -83,35 +81,18 @@ export default function AdminIndexPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <header className="mb-10">
-        <div className="flex justify-between items-center mb-6">
-          <Button 
-            variant="outline" 
-            onClick={() => window.history.back()} 
-            className="text-sm font-poorstory bg-white bg-opacity-80 text-indigo-600 rounded-full px-4 py-2 shadow-md hover:shadow-lg border-2 border-indigo-200 flex items-center gap-1"
-          >
-            <ArrowLeft size={16} />
-            <span>뒤로 가기</span>
-          </Button>
-          <Button variant="outline" className="border-2 border-indigo-300 text-indigo-700 hover:bg-indigo-100 rounded-xl font-jua flex items-center gap-2">
-            <LogOut size={18} />
-            로그아웃
-          </Button>
+    <div className="container mx-auto px-4 py-8">        
+      <h1 className="text-4xl font-jua text-indigo-700 text-center mb-6">{data.title}</h1>
+      
+      <Card className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white border-none mb-8 rounded-2xl shadow-lg overflow-hidden">
+        <div className="absolute right-4 top-4 opacity-20">
+          <BookOpen size={64} strokeWidth={1} />
         </div>
-        
-        <h1 className="text-4xl font-jua text-indigo-700 text-center mb-6">{data.title}</h1>
-        
-        <Card className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white border-none mb-8 rounded-2xl shadow-lg overflow-hidden">
-          <div className="absolute right-4 top-4 opacity-20">
-            <BookOpen size={64} strokeWidth={1} />
-          </div>
-          <CardContent className="pt-8 pb-8">
-            <p className="text-xl font-poorstory">{data.welcomeMessage}</p>
-            <p className="text-sm mt-4 opacity-80 font-poorstory">학생들에게 새로운 독서 경험을 선물해보세요!</p>
-          </CardContent>
-        </Card>
-      </header>
+        <CardContent className="pt-8 pb-8">
+          <p className="text-xl font-poorstory">{data.welcomeMessage}</p>
+          <p className="text-sm mt-4 opacity-80 font-poorstory">학생들에게 새로운 독서 경험을 선물해보세요!</p>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {data.cards.map((card, index) => (
