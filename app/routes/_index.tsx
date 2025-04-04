@@ -16,7 +16,7 @@ export default function Index() {
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
         <header className="mb-10 text-center">
-          <h1 className="text-5xl font-jua text-indigo-700 mb-6">책잇수다</h1>
+          <h1 className="text-7xl font-jua mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-300 ease-in-out inline-block drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] animate-gradient">책잇수다</h1>
           
           <Card className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white border-none mb-8 rounded-2xl shadow-lg overflow-hidden">
             <div className="absolute right-8 top-8 opacity-20">

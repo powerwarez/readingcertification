@@ -16,6 +16,24 @@
 .font-jua { font-family: var(--font-jua); }
 .font-poorstory { font-family: var(--font-poorstory); }
 
+/* 그라디언트 텍스트 애니메이션 */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
 /* 기타 스타일 */
 html,
 body {
