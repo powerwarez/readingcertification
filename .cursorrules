@@ -37,3 +37,7 @@ The application includes a comprehensive authentication flow:
 - **Supabase Client**: Used for database interactions and user authentication
 - **Remix Loaders/Actions**: For server-side data fetching and form submissions
 - **Type-safe API**: TypeScript interfaces ensure type safety across API boundaries
+
+# Codebase Constraints
+
+- **package.json**: package.json을 임의로 수정하지 않습니다.
