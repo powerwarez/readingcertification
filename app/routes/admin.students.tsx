@@ -99,7 +99,8 @@ export default function StudentsIndex() {
                 {classes.map((classInfo) => (
                   <Link 
                     key={`${classInfo.grade}-${classInfo.class}`}
-                    to={`/admin/students/${classInfo.grade}/${classInfo.class}`}
+                    to={`./${classInfo.grade}/${classInfo.class}`}
+                    prefetch="intent"
                     className="block transform hover:scale-105 transition-all duration-300"
                   >
                     <Card className="border-2 border-indigo-100 hover:border-indigo-300 rounded-2xl overflow-hidden shadow-md">
