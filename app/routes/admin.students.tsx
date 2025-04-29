@@ -1,8 +1,9 @@
 import { json } from "@remix-run/node";
-import { Link, useLoaderData, NavLink } from "@remix-run/react";
+import { useLoaderData, NavLink, useNavigate } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Users, GraduationCap, UserPlus, ListFilter } from "lucide-react";
+import { useEffect } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -30,6 +31,12 @@ export function loader() {
 
 export default function StudentsIndex() {
   const data = useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+  
+  // 마운트시 클라이언트 콘솔 로그
+  useEffect(() => {
+    console.log("StudentsIndex 컴포넌트가 마운트되었습니다");
+  }, []);
   
   // 학년별로 데이터 그룹화
   const groupedByGrade = data.classes.reduce((acc, curr) => {
@@ -40,6 +47,12 @@ export default function StudentsIndex() {
     acc[grade].push(curr);
     return acc;
   }, {} as Record<number, typeof data.classes>);
+
+  // 클래스 카드 클릭 핸들러 (프로그래밍 방식으로 이동)
+  const handleClassClick = (grade: number, classNum: number) => {
+    console.log(`클래스 카드 클릭: ${grade}학년 ${classNum}반으로 이동`);
+    navigate(`./${grade}/${classNum}`);
+  };
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -86,6 +99,12 @@ export default function StudentsIndex() {
         </div>
       </header>
 
+      {/* 디버깅 정보 */}
+      <div className="mb-4 p-2 bg-yellow-100 border border-yellow-300 rounded">
+        <p className="text-xs">클라이언트 디버깅: 아래 학급 카드를 클릭하면 해당 반의 학생 목록 페이지로 이동합니다.</p>
+        <p className="text-xs">문제가 발생하면 브라우저 개발자 도구(F12)의 콘솔 탭을 확인하세요.</p>
+      </div>
+
       {/* 학년/반 관리 내용 */}
       <div>
         <h2 className="text-2xl font-jua text-indigo-700 mb-4">학년/반 관리</h2>
@@ -97,11 +116,11 @@ export default function StudentsIndex() {
               <h3 className="text-xl font-jua text-indigo-700 mb-6">{grade}학년</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {classes.map((classInfo) => (
-                  <Link 
+                  <button 
                     key={`${classInfo.grade}-${classInfo.class}`}
-                    to={`./${classInfo.grade}/${classInfo.class}`}
-                    prefetch="intent"
-                    className="block transform hover:scale-105 transition-all duration-300"
+                    onClick={() => handleClassClick(classInfo.grade, classInfo.class)}
+                    className="block transform hover:scale-105 transition-all duration-300 cursor-pointer text-left bg-transparent border-0 p-0 w-full"
+                    aria-label={`${classInfo.grade}학년 ${classInfo.class}반으로 이동`}
                   >
                     <Card className="border-2 border-indigo-100 hover:border-indigo-300 rounded-2xl overflow-hidden shadow-md">
                       <div className="h-3 bg-gradient-to-r from-indigo-400 to-purple-400"></div>
@@ -122,7 +141,7 @@ export default function StudentsIndex() {
                         </div>
                       </CardContent>
                     </Card>
-                  </Link>
+                  </button>
                 ))}
               </div>
             </div>
