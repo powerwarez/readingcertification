@@ -3,7 +3,7 @@ import { useLoaderData, NavLink } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Users, GraduationCap, UserPlus, ListFilter } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -31,11 +31,17 @@ export function loader() {
 
 export default function StudentsIndex() {
   const data = useLoaderData<typeof loader>();
+  const [currentUrl, setCurrentUrl] = useState("");
   
   // 마운트시 클라이언트 콘솔 로그
   useEffect(() => {
     console.log("StudentsIndex 컴포넌트가 마운트되었습니다");
-    console.log("현재 URL:", window.location.href);
+    
+    // 안전하게 window 객체에 접근
+    if (typeof window !== 'undefined') {
+      console.log("현재 URL:", window.location.href);
+      setCurrentUrl(window.location.href);
+    }
   }, []);
   
   // 학년별로 데이터 그룹화
@@ -53,8 +59,10 @@ export default function StudentsIndex() {
     const url = `/admin/students/${grade}/${classNum}`;
     console.log(`클래스 카드 클릭: 절대 경로 ${url}로 이동 시도`);
     
-    // 1. window.location을 사용한 직접 이동
-    window.location.href = url;
+    // 클라이언트 측에서만 실행되도록 보장
+    if (typeof window !== 'undefined') {
+      window.location.href = url;
+    }
   };
 
   return (
@@ -105,7 +113,7 @@ export default function StudentsIndex() {
       {/* 디버깅 정보 */}
       <div className="mb-4 p-2 bg-yellow-100 border border-yellow-300 rounded">
         <p className="text-xs">클라이언트 디버깅: 아래 학급 카드를 클릭하면 직접 이동 방식으로 학생 목록 페이지로 이동합니다.</p>
-        <p className="text-xs">현재 URL: <span id="current-url">{typeof window !== 'undefined' ? window.location.href : '(서버 렌더링 중)'}</span></p>
+        {currentUrl && <p className="text-xs">현재 URL: <span id="current-url">{currentUrl}</span></p>}
       </div>
 
       {/* 보조 네비게이션 (디버깅용) */}
