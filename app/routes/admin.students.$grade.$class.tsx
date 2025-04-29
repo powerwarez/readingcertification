@@ -22,6 +22,12 @@ export const meta: MetaFunction = () => {
 
 // 임시 데이터 - 나중에 데이터베이스에서 가져올 예정
 export async function loader({ params }: LoaderFunctionArgs) {
+  // 파라미터 디버깅
+  console.log("params:", params);
+  
+  const gradeParam = params.grade;
+  const classParam = params.class;
+  
   // 전체 학생 데이터
   const allStudents = [
     { 
@@ -126,14 +132,20 @@ export async function loader({ params }: LoaderFunctionArgs) {
   ];
 
   // URL에서 가져온 학년과 반에 해당하는 학생들만 필터링
-  const filteredStudents = allStudents.filter(
-    student => 
-      student.grade === parseInt(params.grade as string) && 
-      student.class === parseInt(params.class as string)
-  );
+  // 문자열 비교로 변경 - 더 안정적
+  const filteredStudents = allStudents.filter(student => {
+    const studentGrade = student.grade.toString();
+    const studentClass = student.class.toString();
+    
+    return studentGrade === gradeParam && studentClass === classParam;
+  });
+
+  // 디버깅용 로그
+  console.log("필터링된 학생 수:", filteredStudents.length);
 
   return json({
-    students: filteredStudents
+    students: filteredStudents,
+    debug: { grade: gradeParam, class: classParam }
   });
 }
 
@@ -163,6 +175,14 @@ export default function ClassStudents() {
             </Button>
           </div>
         </div>
+
+        {/* 디버깅 정보 (개발 중에만 표시) */}
+        {process.env.NODE_ENV !== 'production' && (
+          <div className="mb-4 p-2 bg-yellow-100 border border-yellow-300 rounded">
+            <p className="text-xs">디버그: grade={data.debug?.grade}, class={data.debug?.class}</p>
+            <p className="text-xs">학생 수: {data.students.length}</p>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Card className="border-2 border-blue-100">
