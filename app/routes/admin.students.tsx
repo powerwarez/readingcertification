@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import { useLoaderData, NavLink, useNavigate } from "@remix-run/react";
+import { useLoaderData, NavLink } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Users, GraduationCap, UserPlus, ListFilter } from "lucide-react";
@@ -31,11 +31,11 @@ export function loader() {
 
 export default function StudentsIndex() {
   const data = useLoaderData<typeof loader>();
-  const navigate = useNavigate();
   
   // 마운트시 클라이언트 콘솔 로그
   useEffect(() => {
     console.log("StudentsIndex 컴포넌트가 마운트되었습니다");
+    console.log("현재 URL:", window.location.href);
   }, []);
   
   // 학년별로 데이터 그룹화
@@ -48,10 +48,13 @@ export default function StudentsIndex() {
     return acc;
   }, {} as Record<number, typeof data.classes>);
 
-  // 클래스 카드 클릭 핸들러 (프로그래밍 방식으로 이동)
+  // 클래스 카드 클릭 핸들러 (절대 경로를 사용하는 방식으로 변경)
   const handleClassClick = (grade: number, classNum: number) => {
-    console.log(`클래스 카드 클릭: ${grade}학년 ${classNum}반으로 이동`);
-    navigate(`./${grade}/${classNum}`);
+    const url = `/admin/students/${grade}/${classNum}`;
+    console.log(`클래스 카드 클릭: 절대 경로 ${url}로 이동 시도`);
+    
+    // 1. window.location을 사용한 직접 이동
+    window.location.href = url;
   };
 
   return (
@@ -101,8 +104,18 @@ export default function StudentsIndex() {
 
       {/* 디버깅 정보 */}
       <div className="mb-4 p-2 bg-yellow-100 border border-yellow-300 rounded">
-        <p className="text-xs">클라이언트 디버깅: 아래 학급 카드를 클릭하면 해당 반의 학생 목록 페이지로 이동합니다.</p>
-        <p className="text-xs">문제가 발생하면 브라우저 개발자 도구(F12)의 콘솔 탭을 확인하세요.</p>
+        <p className="text-xs">클라이언트 디버깅: 아래 학급 카드를 클릭하면 직접 이동 방식으로 학생 목록 페이지로 이동합니다.</p>
+        <p className="text-xs">현재 URL: <span id="current-url">{typeof window !== 'undefined' ? window.location.href : '(서버 렌더링 중)'}</span></p>
+      </div>
+
+      {/* 보조 네비게이션 (디버깅용) */}
+      <div className="mb-6 p-3 bg-blue-50 border border-blue-200 rounded">
+        <p className="font-poorstory mb-2">직접 링크 테스트:</p>
+        <div className="flex flex-wrap gap-2">
+          <a href="/admin/students/1/1" className="bg-blue-100 px-3 py-1 rounded text-sm font-poorstory">1학년 1반</a>
+          <a href="/admin/students/1/2" className="bg-blue-100 px-3 py-1 rounded text-sm font-poorstory">1학년 2반</a>
+          <a href="/admin/students/2/1" className="bg-blue-100 px-3 py-1 rounded text-sm font-poorstory">2학년 1반</a>
+        </div>
       </div>
 
       {/* 학년/반 관리 내용 */}
